@@ -1,6 +1,7 @@
 let n
 let slidesTime=makeClock()
 let $Allbuttons=$(".wrapper>button")
+var clickSlide=true
 initSlides()
 buttonEvent($Allbuttons)
 $('.wrapper').on('mouseenter',()=>{
@@ -73,6 +74,7 @@ function makeClock(){
 function nextImage(n){
     makeLeave(getImages(n)).one('transitionend',(slideTarget)=>{
         makeEnter($(slideTarget.currentTarget))
+        clickSlide=true
     })
     makeCurrent(getImages(n+1))
 }
@@ -85,10 +87,13 @@ function buttonEvent($nodes) {
             $(enterTarget.currentTarget).removeClass('active')
         })
         $($nodes[0]).unbind("click").on("click",(targetButton)=>{
-            $(targetButton.currentTarget).addClass('activeClick')
-            .siblings().removeClass('activeClick')
-            nextImage(n)
-            n++
+            if (clickSlide) {
+                $(targetButton.currentTarget).addClass('activeClick')
+                .siblings().removeClass('activeClick')
+                nextImage(n)
+                n++
+                clickSlide=false
+            }
         })
     }
 }
