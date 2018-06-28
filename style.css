@@ -1,11 +1,22 @@
 *{margin:0;padding:0;}
+body{
+    background-color: black;
+    height: 100vh;
+}
 .pictureWindow{
-    width:300px;
-    height:779px;
+    width:inherit;
+    height:inherit;
     margin:0 auto;
     overflow: hidden;
 }
+.wrapper{
+    width:600px;
+    height:779px;
+    margin:0 auto;
+    position: relative;
+}
 .images{
+    height:inherit;
     position:relative;
 }
 .images>img{
@@ -19,16 +30,60 @@
     transform: translateX(0);
     display: block;
     z-index:1;
-    opacity: 1;
 }
 .images>img.leave{
     transform: translateX(-100%);
     display: block;
     z-index:1;
-    opacity: 0;
 }
 .images>img.enter{
     transform: translateX(100%);
     display: block;
-    opacity: 0;
+}
+.buttonBefore::before{
+    content:"禁用";
+    font-size: 20px;
+}
+.buttonNext::before{
+    content: ">";
+    font-size: 30px;
+}
+.buttonNext::before,
+.buttonBefore::before {
+    color: #3e4452;
+    font-weight:bold;
+    line-height: 1;
+    font-family: 'icomoon';
+    vertical-align: auto;
+}
+.buttonNext,
+.buttonBefore {
+    margin:0 10px;
+    font-size: 0;
+    width: 58px;
+    height: 58px;
+    right: 25px;
+    z-index: 1;
+    display: block;
+    cursor: pointer;
+    outline:none;
+    text-align: center;
+    border: none;
+    background: white;
+    opacity: 0.3;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.buttonNext{
+    position:absolute;
+    left:100%; top:50%;
+}
+.buttonBefore{
+    position:absolute;
+    right:100%; top:50%;  
+}
+.buttonNext.active,
+.buttonBefore.active,
+.buttonBefore.activeClick,
+.buttonNext.activeClick{
+    opacity: 1;
 }

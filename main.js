@@ -1,12 +1,21 @@
 let n
-initSlides()
 let slidesTime=makeClock()
-$('.images').on('mouseenter',()=>{
+let $Allbuttons=$(".wrapper>button")
+initSlides()
+buttonEvent($Allbuttons)
+$('.wrapper').on('mouseenter',()=>{
     clearInterval(slidesTime)
 })
-$('.images').on('mouseleave',()=>{
+$('.wrapper').on('mouseleave',()=>{
     slidesTime=makeClock()
 })
+
+
+
+
+
+
+
 
 
 
@@ -35,10 +44,10 @@ function initSlides(){
     .siblings().addClass('enter')
 }
 function num(x) {
-    if (x>11) {
-        x=x%11
+    if (x>3) {
+        x=x%3
         if (x===0) {
-            x=11
+            x=3
         }
     }
     return x
@@ -57,10 +66,29 @@ function makeEnter($node) {
 }
 function makeClock(){
     return setInterval(()=>{
-        makeLeave(getImages(n)).one('transitionend',(slideTarget)=>{
-            makeEnter($(slideTarget.currentTarget))
-        })
-        makeCurrent(getImages(n+1))
+        nextImage(n)
         n++
-    },600)
+    },1500)
+}
+function nextImage(n){
+    makeLeave(getImages(n)).one('transitionend',(slideTarget)=>{
+        makeEnter($(slideTarget.currentTarget))
+    })
+    makeCurrent(getImages(n+1))
+}
+function buttonEvent($nodes) {
+    for(let i=0;i<$nodes.length;i++){
+        $($nodes[i]).on("mouseenter",(enterTarget)=>{
+            $(enterTarget.currentTarget).addClass('active')
+        })
+        $($nodes[i]).on("mouseleave",(enterTarget)=>{
+            $(enterTarget.currentTarget).removeClass('active')
+        })
+        $($nodes[0]).unbind("click").on("click",(targetButton)=>{
+            $(targetButton.currentTarget).addClass('activeClick')
+            .siblings().removeClass('activeClick')
+            nextImage(n)
+            n++
+        })
+    }
 }
